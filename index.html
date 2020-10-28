@@ -1,0 +1,109 @@
+<!-- DESAFIO
+Faça uma página HTML que recebe a informação, citada abaixo, pelo usuário e retorna qual lente é ideal para o usuário. (E caso não saiba HTML, não tem problema, escreva um pseudo-código com a lógica para solucionar o problema abaixo! 😆)
+Em uma compra online, o usuário insere informações de sua receita oftálmica, e nosso sistema deve exibir uma lente que atende a sua necessidade. Precisamos captar 4 parâmetros numéricos do usuário. São eles: grau esférico do olho esquerdo, grau esférico do olho direito, grau cilíndrico do olho esquerdo e grau cilíndrico do olho direito. A lente Prime só pode ser uma opção para o usuário que tiver grau esférico, seja do olho esquerdo ou do olho direito, entre -3 e -12. Além disso, ela só atende até grau cilíndrico -2, porém, se o usuário apresentar grau cilíndrico, ela passa a atender grau esférico entre -3 e -10. Já a lente Vision é uma opção para quem tem de 0 a -15 de esférico e até -5 de cilíndrico. Quando a lente Prime está disponível, ela deve ser a única exibida para o usuário. OBS: O grau limite que o usuário pode inserir é de 0 a -15 para esférico e -6 para cilíndrico e são números iterados de 0,25 em 0,25 (ex: -0,25; 0; +0,25; etc) * -->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Lens Scope Test</title>
+    <style>
+        form {
+            display: table;
+        }
+        
+        form div {
+            display: table-row;
+        }
+        
+        form span {
+            display: table-cell;
+            margin: 10px;
+            padding: 10px;
+        }
+        
+        form input {
+            display: table-cell;
+            min-width: 10vw;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Insira os dados da sua receita abaixo</h2>
+    <form>
+        <div>
+            <span> Grau esférico do olho direito</span>
+            <input type="number" max="0" min="-15" step="0.25" id="ed" />
+        </div>
+        <div>
+            <span> Grau esférico do olho esquerdo</span>
+            <input type="number" max="0" min="-15" step="0.25" id="ee" />
+        </div>
+        <div>
+            <span>Grau cilíndrico do olho direito</span>
+            <input type="number" max="0" min="-6" step="0.25" id="cd" />
+        </div>
+        <div>
+            <span> Grau cilíndrico do olho esquerdo</span>
+            <input type="number" max="0" min="-6" step="0.25" id="ce" />
+        </div>
+        <button class="sub" type="button" id="button" onclick="lens()">
+        Enviar
+      </button>
+    </form>
+    <div id="tipoDeLente"></div>
+
+    <script>
+        function lens() {
+            const tipoDeLente = document.getElementById("tipoDeLente");
+            const ed = document.getElementById("ed").value;
+            const ee = document.getElementById("ee").value;
+            const cd = document.getElementById("cd").value;
+            const ce = document.getElementById("ce").value;
+
+
+
+            function lensMessage(message) {
+                tipoDeLente.innerHTML = "<span>" + message + "</span>";
+            }
+
+            if (
+                cd == 0 &&
+                ce == 0 &&
+                ed == 0 &&
+                ee == 0
+            ) {
+                lensMessage("Insira alguma valor");
+            } else if (
+                cd == 0 &&
+                ce == 0 &&
+                ((ed >= -12 && ed <= -3) || (ee >= -12 && ee <= -3))
+            ) {
+                lensMessage("Você deve usar lentes prime!");
+
+            } else if (
+                cd >= -2 &&
+                ce >= -2 &&
+                ((ed >= -10 && ed <= -3) || (ee >= -10 && ee <= -3))
+            ) {
+                lensMessage("Você deve usar lentes prime!");
+            } else if (
+                cd >= -5 &&
+                ce >= -5 &&
+                ((ed >= -15 && ed <= 0) || (ee >= -15 && ee <= 0))
+            ) {
+                lensMessage("Você deve usar lentes vision!");
+
+            } else {
+                lensMessage("No momento não possuímos nenhuma lente para a sua receita.");
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
